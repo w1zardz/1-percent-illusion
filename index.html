@@ -1,0 +1,750 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+    <title>1% Illusion — Калькулятор иллюзии кэшбэка | Когда накопишь на MacBook с кэшбэка?</title>
+    <meta name="description" content="Узнай суровую правду: сколько лет копить на MacBook или RTX 4090 с 1% кэшбэка от покупок. Калькулятор иллюзии накоплений с кэшбэка Тинькофф.">
+    <meta name="keywords" content="кэшбэк калькулятор, 1 процент кэшбэк, сколько копить на макбук, иллюзия кэшбэка, тинькофф кэшбэк, калькулятор накоплений, cashback calculator">
+    <meta name="author" content="Nikita Bulanov">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://bulfrg.github.io/1-percent-illusion/">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="1% Illusion — Когда накопишь на MacBook с кэшбэка?">
+    <meta property="og:description" content="Калькулятор показывает суровую реальность: в каком тысячелетии ты накопишь на мечту с 1% кэшбэка.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://bulfrg.github.io/1-percent-illusion/">
+    <meta property="og:locale" content="ru_RU">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="1% Illusion — Калькулятор иллюзии кэшбэка">
+    <meta name="twitter:description" content="Узнай в каком тысячелетии ты накопишь на MacBook с 1% кэшбэка.">
+
+    <!-- Schema.org -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "1% Illusion",
+        "description": "Калькулятор показывает суровую реальность накоплений с 1% кэшбэка от покупок",
+        "url": "https://bulfrg.github.io/1-percent-illusion/",
+        "applicationCategory": "FinanceApplication",
+        "operatingSystem": "Any",
+        "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "RUB"
+        },
+        "author": {
+            "@type": "Person",
+            "name": "Nikita Bulanov",
+            "url": "https://github.com/bulfrg"
+        }
+    }
+    </script>
+
+    <style>
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        :root {
+            --bg: #0a0a0f;
+            --surface: #14141f;
+            --surface-hover: #1a1a2e;
+            --border: #2a2a3e;
+            --text: #e8e8f0;
+            --text-muted: #8888a0;
+            --accent: #6c5ce7;
+            --accent-glow: rgba(108, 92, 231, 0.3);
+            --danger: #ff6b6b;
+            --warning: #ffd93d;
+            --success: #6bcb77;
+            --radius: 16px;
+            --radius-sm: 10px;
+        }
+
+        html {
+            font-size: 16px;
+            -webkit-text-size-adjust: 100%;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100dvh;
+            line-height: 1.6;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .container {
+            max-width: 520px;
+            margin: 0 auto;
+            padding: 20px 16px 40px;
+        }
+
+        /* Header */
+        .header {
+            text-align: center;
+            padding: 32px 0 24px;
+        }
+
+        .header h1 {
+            font-size: clamp(1.8rem, 6vw, 2.4rem);
+            font-weight: 800;
+            background: linear-gradient(135deg, #6c5ce7, #a29bfe, #fd79a8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -0.5px;
+            line-height: 1.2;
+        }
+
+        .header p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            margin-top: 8px;
+            max-width: 340px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Cards */
+        .card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 20px;
+            margin-bottom: 16px;
+        }
+
+        .card-title {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: var(--text-muted);
+            margin-bottom: 16px;
+            font-weight: 600;
+        }
+
+        /* Inputs */
+        .input-group {
+            margin-bottom: 16px;
+        }
+
+        .input-group:last-child {
+            margin-bottom: 0;
+        }
+
+        .input-group label {
+            display: block;
+            font-size: 0.9rem;
+            color: var(--text);
+            margin-bottom: 6px;
+            font-weight: 500;
+        }
+
+        .input-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .input-wrapper input {
+            width: 100%;
+            background: var(--bg);
+            border: 1.5px solid var(--border);
+            border-radius: var(--radius-sm);
+            padding: 14px 50px 14px 16px;
+            color: var(--text);
+            font-size: 1.1rem;
+            font-weight: 600;
+            transition: border-color 0.2s, box-shadow 0.2s;
+            -webkit-appearance: none;
+            appearance: none;
+        }
+
+        .input-wrapper input:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px var(--accent-glow);
+        }
+
+        .input-wrapper input::placeholder {
+            color: #555;
+            font-weight: 400;
+        }
+
+        .input-suffix {
+            position: absolute;
+            right: 16px;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            font-weight: 500;
+            pointer-events: none;
+        }
+
+        /* Target selector */
+        .targets {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        .target-btn {
+            background: var(--bg);
+            border: 1.5px solid var(--border);
+            border-radius: var(--radius-sm);
+            padding: 14px 12px;
+            color: var(--text);
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: center;
+            -webkit-tap-highlight-color: transparent;
+            user-select: none;
+        }
+
+        .target-btn:hover {
+            border-color: var(--accent);
+            background: var(--surface-hover);
+        }
+
+        .target-btn:active {
+            transform: scale(0.97);
+        }
+
+        .target-btn.active {
+            border-color: var(--accent);
+            background: rgba(108, 92, 231, 0.12);
+            box-shadow: 0 0 0 3px var(--accent-glow);
+        }
+
+        .target-emoji {
+            font-size: 1.6rem;
+            display: block;
+            margin-bottom: 4px;
+        }
+
+        .target-name {
+            font-size: 0.8rem;
+            font-weight: 600;
+            display: block;
+        }
+
+        .target-price {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            display: block;
+            margin-top: 2px;
+        }
+
+        /* Calculate button */
+        .calc-btn {
+            width: 100%;
+            background: linear-gradient(135deg, #6c5ce7, #a29bfe);
+            border: none;
+            border-radius: var(--radius-sm);
+            padding: 16px;
+            color: white;
+            font-size: 1.05rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+            -webkit-tap-highlight-color: transparent;
+            margin-top: 8px;
+            letter-spacing: 0.3px;
+        }
+
+        .calc-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 8px 24px var(--accent-glow);
+        }
+
+        .calc-btn:active {
+            transform: scale(0.98);
+        }
+
+        /* Results */
+        .results {
+            display: none;
+            animation: fadeUp 0.4s ease;
+        }
+
+        .results.visible {
+            display: block;
+        }
+
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(16px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .result-hero {
+            text-align: center;
+            padding: 28px 20px;
+            background: linear-gradient(135deg, rgba(108, 92, 231, 0.15), rgba(253, 121, 168, 0.1));
+            border: 1px solid rgba(108, 92, 231, 0.3);
+        }
+
+        .result-hero .emoji {
+            font-size: 2.8rem;
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        .result-hero .years {
+            font-size: clamp(2rem, 8vw, 3rem);
+            font-weight: 900;
+            background: linear-gradient(135deg, var(--danger), var(--warning));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1.1;
+        }
+
+        .result-hero .years-label {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin-top: 4px;
+        }
+
+        .result-hero .commentary {
+            font-size: 0.95rem;
+            color: var(--warning);
+            margin-top: 12px;
+            font-weight: 500;
+            line-height: 1.4;
+        }
+
+        /* Stats grid */
+        .stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-top: 16px;
+        }
+
+        .stat {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            padding: 16px 14px;
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 1.3rem;
+            font-weight: 800;
+            color: var(--accent);
+            display: block;
+            line-height: 1.2;
+            word-break: break-word;
+        }
+
+        .stat-label {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            margin-top: 4px;
+            display: block;
+            line-height: 1.3;
+        }
+
+        .stat.full-width {
+            grid-column: 1 / -1;
+        }
+
+        .stat.bread .stat-value {
+            color: var(--warning);
+        }
+
+        .stat.danger .stat-value {
+            color: var(--danger);
+        }
+
+        /* Timeline */
+        .timeline-card {
+            margin-top: 16px;
+        }
+
+        .timeline-bar-container {
+            background: var(--bg);
+            border-radius: 20px;
+            height: 28px;
+            overflow: hidden;
+            position: relative;
+            margin: 12px 0;
+        }
+
+        .timeline-bar {
+            height: 100%;
+            background: linear-gradient(90deg, var(--accent), var(--danger));
+            border-radius: 20px;
+            min-width: 2px;
+            max-width: 100%;
+            transition: width 0.6s ease;
+        }
+
+        .timeline-labels {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        /* Share button */
+        .share-btn {
+            width: 100%;
+            background: var(--surface);
+            border: 1.5px solid var(--border);
+            border-radius: var(--radius-sm);
+            padding: 14px;
+            color: var(--text);
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            margin-top: 16px;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .share-btn:hover {
+            border-color: var(--accent);
+            background: var(--surface-hover);
+        }
+
+        .share-btn:active {
+            transform: scale(0.98);
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 32px 16px 24px;
+            color: var(--text-muted);
+            font-size: 0.8rem;
+            line-height: 1.6;
+        }
+
+        footer a {
+            color: var(--accent);
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+        /* Toast */
+        .toast {
+            position: fixed;
+            bottom: 24px;
+            left: 50%;
+            transform: translateX(-50%) translateY(80px);
+            background: var(--surface);
+            border: 1px solid var(--accent);
+            border-radius: var(--radius-sm);
+            padding: 12px 20px;
+            color: var(--text);
+            font-size: 0.9rem;
+            font-weight: 500;
+            opacity: 0;
+            transition: all 0.3s ease;
+            pointer-events: none;
+            z-index: 100;
+            white-space: nowrap;
+        }
+
+        .toast.show {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        /* Responsive */
+        @media (max-width: 380px) {
+            .container { padding: 16px 12px 32px; }
+            .card { padding: 16px; }
+            .targets { gap: 8px; }
+            .target-btn { padding: 12px 8px; }
+            .stat { padding: 12px 10px; }
+            .stat-value { font-size: 1.1rem; }
+        }
+
+        @media (min-width: 768px) {
+            .container { padding: 32px 24px 48px; }
+            .stats { grid-template-columns: repeat(2, 1fr); }
+        }
+
+        /* Accessibility */
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+
+        /* Safe area for notch phones */
+        @supports (padding-top: env(safe-area-inset-top)) {
+            body {
+                padding-top: env(safe-area-inset-top);
+                padding-bottom: env(safe-area-inset-bottom);
+                padding-left: env(safe-area-inset-left);
+                padding-right: env(safe-area-inset-right);
+            }
+        }
+    </style>
+</head>
+<body>
+    <main class="container">
+        <header class="header">
+            <h1>1% Illusion</h1>
+            <p>Узнай суровую правду о накоплениях с кэшбэка</p>
+        </header>
+
+        <!-- Input Section -->
+        <div class="card">
+            <div class="card-title">Твои данные</div>
+            <div class="input-group">
+                <label for="salary">Зарплата в месяц</label>
+                <div class="input-wrapper">
+                    <input type="number" id="salary" inputmode="numeric" placeholder="80 000" min="0">
+                    <span class="input-suffix">&#8381;</span>
+                </div>
+            </div>
+            <div class="input-group">
+                <label for="spending">Траты на еду и развлечения</label>
+                <div class="input-wrapper">
+                    <input type="number" id="spending" inputmode="numeric" placeholder="40 000" min="0">
+                    <span class="input-suffix">&#8381;</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-title">Цель мечты</div>
+            <div class="targets" id="targets">
+                <button class="target-btn active" data-price="249990" data-name="MacBook Pro 14&quot;" data-emoji="&#128187;">
+                    <span class="target-emoji">&#128187;</span>
+                    <span class="target-name">MacBook Pro 14"</span>
+                    <span class="target-price">249 990 &#8381;</span>
+                </button>
+                <button class="target-btn" data-price="79990" data-name="RTX 4070 SUPER" data-emoji="&#127918;">
+                    <span class="target-emoji">&#127918;</span>
+                    <span class="target-name">RTX 4070 SUPER</span>
+                    <span class="target-price">79 990 &#8381;</span>
+                </button>
+                <button class="target-btn" data-price="159990" data-name="iPhone 16 Pro Max" data-emoji="&#128241;">
+                    <span class="target-emoji">&#128241;</span>
+                    <span class="target-name">iPhone 16 Pro Max</span>
+                    <span class="target-price">159 990 &#8381;</span>
+                </button>
+                <button class="target-btn" data-price="449990" data-name="RTX 5090" data-emoji="&#128293;">
+                    <span class="target-emoji">&#128293;</span>
+                    <span class="target-name">RTX 5090</span>
+                    <span class="target-price">449 990 &#8381;</span>
+                </button>
+                <button class="target-btn" data-price="14990" data-name="PS Plus на год" data-emoji="&#127775;">
+                    <span class="target-emoji">&#127775;</span>
+                    <span class="target-name">PS Plus на год</span>
+                    <span class="target-price">14 990 &#8381;</span>
+                </button>
+                <button class="target-btn" data-price="5999990" data-name="Tesla Model 3" data-emoji="&#128664;">
+                    <span class="target-emoji">&#128664;</span>
+                    <span class="target-name">Tesla Model 3</span>
+                    <span class="target-price">5 999 990 &#8381;</span>
+                </button>
+            </div>
+        </div>
+
+        <button class="calc-btn" id="calcBtn">Рассчитать мою боль</button>
+
+        <!-- Results Section -->
+        <div class="results" id="results">
+            <div class="card result-hero">
+                <span class="emoji" id="resultEmoji"></span>
+                <div class="years" id="resultYears"></div>
+                <div class="years-label" id="resultLabel"></div>
+                <div class="commentary" id="resultComment"></div>
+            </div>
+
+            <div class="stats">
+                <div class="stat">
+                    <span class="stat-value" id="statMonthly"></span>
+                    <span class="stat-label">кэшбэк в месяц</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-value" id="statTotal"></span>
+                    <span class="stat-label">месяцев копить</span>
+                </div>
+                <div class="stat bread">
+                    <span class="stat-value" id="statBread"></span>
+                    <span class="stat-label">батонов хлеба купить</span>
+                </div>
+                <div class="stat danger">
+                    <span class="stat-value" id="statYear"></span>
+                    <span class="stat-label">год накопления</span>
+                </div>
+            </div>
+
+            <div class="card timeline-card">
+                <div class="card-title">Прогресс за 1 год</div>
+                <div class="timeline-bar-container">
+                    <div class="timeline-bar" id="timelineBar"></div>
+                </div>
+                <div class="timeline-labels">
+                    <span>0 &#8381;</span>
+                    <span id="timelineTarget"></span>
+                </div>
+                <p style="text-align:center; margin-top:10px; font-size:0.85rem; color:var(--text-muted);" id="timelinePercent"></p>
+            </div>
+
+            <button class="share-btn" id="shareBtn">&#128203; Поделиться результатом</button>
+        </div>
+    </main>
+
+    <footer>
+        <p>Сделано с &#128557; и 1% кэшбэка</p>
+        <p style="margin-top:4px;">
+            <a href="https://github.com/bulfrg/1-percent-illusion" target="_blank" rel="noopener">GitHub</a>
+            &nbsp;&middot;&nbsp;
+            <a href="https://github.com/bulfrg" target="_blank" rel="noopener">@bulfrg</a>
+        </p>
+    </footer>
+
+    <div class="toast" id="toast"></div>
+
+    <script>
+        const BREAD_PRICE = 45;
+        const CASHBACK_RATE = 0.01;
+
+        let selectedTarget = document.querySelector('.target-btn.active');
+
+        // Target selection
+        document.getElementById('targets').addEventListener('click', (e) => {
+            const btn = e.target.closest('.target-btn');
+            if (!btn) return;
+            document.querySelectorAll('.target-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            selectedTarget = btn;
+        });
+
+        // Calculate
+        document.getElementById('calcBtn').addEventListener('click', calculate);
+
+        // Also calculate on Enter
+        document.querySelectorAll('input').forEach(input => {
+            input.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter') calculate();
+            });
+        });
+
+        function calculate() {
+            const salary = parseFloat(document.getElementById('salary').value);
+            const spending = parseFloat(document.getElementById('spending').value);
+
+            if (!salary || salary <= 0) {
+                showToast('Введи зарплату');
+                return;
+            }
+            if (!spending || spending <= 0) {
+                showToast('Введи траты');
+                return;
+            }
+            if (spending > salary) {
+                showToast('Траты больше зарплаты... знакомо');
+                return;
+            }
+
+            const targetPrice = parseInt(selectedTarget.dataset.price);
+            const targetName = selectedTarget.dataset.name;
+            const targetEmoji = selectedTarget.dataset.emoji;
+
+            const monthlyCashback = spending * CASHBACK_RATE;
+            const monthsNeeded = Math.ceil(targetPrice / monthlyCashback);
+            const yearsNeeded = monthsNeeded / 12;
+            const breadNeeded = Math.ceil(spending / BREAD_PRICE) * monthsNeeded;
+            const yearlyProgress = (monthlyCashback * 12 / targetPrice) * 100;
+            const finishYear = new Date().getFullYear() + Math.ceil(yearsNeeded);
+
+            // Display results
+            document.getElementById('resultEmoji').textContent = yearsNeeded > 100 ? '💀' : yearsNeeded > 20 ? '😱' : yearsNeeded > 5 ? '😰' : '😅';
+
+            const yearsEl = document.getElementById('resultYears');
+            if (yearsNeeded >= 1) {
+                yearsEl.textContent = formatNumber(Math.round(yearsNeeded * 10) / 10) + (yearsNeeded >= 100 ? '' : yearsNeeded === 1 ? ' год' : yearsNeeded < 5 ? ' года' : ' лет');
+            } else {
+                yearsEl.textContent = monthsNeeded + ' мес.';
+            }
+
+            document.getElementById('resultLabel').textContent = `копить на ${targetName}`;
+            document.getElementById('resultComment').textContent = getComment(yearsNeeded, targetName);
+
+            document.getElementById('statMonthly').textContent = formatMoney(monthlyCashback);
+            document.getElementById('statTotal').textContent = formatNumber(monthsNeeded);
+            document.getElementById('statBread').textContent = formatNumber(breadNeeded);
+            document.getElementById('statYear').textContent = finishYear + ' г.';
+
+            const barWidth = Math.min(yearlyProgress, 100);
+            document.getElementById('timelineBar').style.width = barWidth + '%';
+            document.getElementById('timelineTarget').textContent = formatMoney(targetPrice);
+            document.getElementById('timelinePercent').textContent = `За год накопишь ${yearlyProgress.toFixed(2)}% стоимости`;
+
+            const resultsEl = document.getElementById('results');
+            resultsEl.classList.add('visible');
+            resultsEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+            // Share button
+            document.getElementById('shareBtn').onclick = () => shareResult(yearsNeeded, targetName, monthlyCashback, breadNeeded, finishYear);
+        }
+
+        function getComment(years, target) {
+            if (years > 1000) return `К этому моменту ${target} будет в музее древностей`;
+            if (years > 100) return `Твои правнуки, возможно, дождутся`;
+            if (years > 50) return `Начни копить — внуки скажут спасибо`;
+            if (years > 20) return `На пенсии как раз купишь!`;
+            if (years > 10) return `Лет через 10 технологии уйдут вперёд...`;
+            if (years > 5) return `Всего-то подождать... немного...`;
+            if (years > 2) return `Ну, реально, но больно`;
+            if (years > 1) return `Почти реально! Но хлеба нужно МНОГО`;
+            return `О, это даже выглядит возможным!`;
+        }
+
+        function formatNumber(n) {
+            return n.toLocaleString('ru-RU');
+        }
+
+        function formatMoney(n) {
+            if (n >= 1) {
+                return Math.round(n).toLocaleString('ru-RU') + ' \u20BD';
+            }
+            return n.toFixed(2) + ' \u20BD';
+        }
+
+        function showToast(msg) {
+            const toast = document.getElementById('toast');
+            toast.textContent = msg;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 2500);
+        }
+
+        function shareResult(years, target, monthly, bread, finishYear) {
+            const text = `1% Illusion \uD83D\uDCA1\n\nМне нужно ${years >= 1 ? Math.round(years * 10) / 10 + ' лет' : Math.ceil(years * 12) + ' мес.'} чтобы накопить на ${target} с 1% кэшбэка!\n\nКэшбэк в месяц: ${formatMoney(monthly)}\nБатонов хлеба: ${formatNumber(bread)} \uD83C\uDF5E\nГод накопления: ${finishYear}\n\nУзнай свою боль: https://bulfrg.github.io/1-percent-illusion/`;
+
+            if (navigator.share) {
+                navigator.share({ title: '1% Illusion', text: text }).catch(() => {});
+            } else {
+                navigator.clipboard.writeText(text).then(() => {
+                    showToast('Скопировано!');
+                }).catch(() => {
+                    showToast('Не удалось скопировать');
+                });
+            }
+        }
+    </script>
+</body>
+</html>
